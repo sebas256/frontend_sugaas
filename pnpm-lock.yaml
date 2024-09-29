@@ -18,6 +18,9 @@ importers:
       '@iconify-json/bxl':
         specifier: ^1.1.10
         version: 1.1.10
+      '@kyvg/vue3-notification':
+        specifier: ^3.3.0
+        version: 3.3.0(vue@3.4.34(typescript@5.5.4))
       '@stylistic/stylelint-config':
         specifier: ^1.0.1
         version: 1.0.1(stylelint@16.7.0(typescript@5.5.4))
@@ -30,6 +33,9 @@ importers:
       apexcharts:
         specifier: 3.51.0
         version: 3.51.0
+      axios:
+        specifier: ^1.7.7
+        version: 1.7.7
       pinia:
         specifier: ^2.1.7
         version: 2.1.7(typescript@5.5.4)(vue@3.4.34(typescript@5.5.4))
@@ -585,6 +591,11 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
+  '@kyvg/vue3-notification@3.3.0':
+    resolution: {integrity: sha512-8kv8jfGgK/1F2L+BzojUEWCaWkLOICui4y4SsxwZeTnWA7ZAZrc9r+OL8gM2F9D/UzDNoB9dNEqi8B8bgsmoVA==}
+    peerDependencies:
+      vue: ^3.0.0
+
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
@@ -1004,8 +1015,8 @@ packages:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
     engines: {node: '>= 0.4'}
 
-  axios@1.7.2:
-    resolution: {integrity: sha512-2A8QhOMrbomlDuiLeK9XibIBzuHeRcqqNOHp0Cyp5EoJ1IFDh+XZH3A6BkXtv0K4gFGCI0Y4BM7B1wOEi0Rmgw==}
+  axios@1.7.7:
+    resolution: {integrity: sha512-S4kL7XrjgBmvdGut0sN3yJxqYzrDOnivkBiN0OFs6hLiUam3UPvswUo0kqGyhqUZGEOytHyumEdXsAkgCOUf3Q==}
 
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
@@ -3456,7 +3467,7 @@ snapshots:
       '@iconify/types': 2.0.0
       '@iconify/utils': 2.1.25
       '@types/tar': 6.1.13
-      axios: 1.7.2
+      axios: 1.7.7
       cheerio: 1.0.0-rc.12
       extract-zip: 2.0.1
       local-pkg: 0.5.0
@@ -3502,6 +3513,10 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
+
+  '@kyvg/vue3-notification@3.3.0(vue@3.4.34(typescript@5.5.4))':
+    dependencies:
+      vue: 3.4.34(typescript@5.5.4)
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -4017,7 +4032,7 @@ snapshots:
     dependencies:
       possible-typed-array-names: 1.0.0
 
-  axios@1.7.2:
+  axios@1.7.7:
     dependencies:
       follow-redirects: 1.15.6
       form-data: 4.0.0

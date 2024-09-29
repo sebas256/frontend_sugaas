@@ -5,10 +5,10 @@ import { registerPlugins } from '@core/utils/plugins'
 // Styles
 import '@core/scss/template/index.scss'
 import '@layouts/styles/index.scss'
-
+import Notifications from '@kyvg/vue3-notification'
 // Create vue app
 const app = createApp(App)
-
+app.use(Notifications)
 
 // Register plugins
 registerPlugins(app)

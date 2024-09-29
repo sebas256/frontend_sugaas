@@ -1,5 +1,5 @@
 <script setup>
-import AnalyticsAward from '@/views/dashboard/AnalyticsAward.vue'
+import AnalyticsAward from '@/views/dashboard/ProgramaForm.vue'
 import AnalyticsBarCharts from '@/views/dashboard/AnalyticsBarCharts.vue'
 import AnalyticsDepositWithdraw from '@/views/dashboard/AnalyticsDepositWithdraw.vue'
 import AnalyticsSalesByCountries from '@/views/dashboard/AnalyticsSalesByCountries.vue'

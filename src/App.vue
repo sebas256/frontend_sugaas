@@ -6,5 +6,6 @@ import UpgradeToPro from '@/components/UpgradeToPro.vue'
   <VApp>
     <RouterView />
     <UpgradeToPro />
+    <notifications />
   </VApp>
 </template>
