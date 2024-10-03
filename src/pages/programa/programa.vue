@@ -4,11 +4,11 @@
         cols="12"
         md="12"
       >
-        <AnalyticsAward />
+        <Program />
       </VCol>
     </VRow>
 </template>
 
 <script setup>
-import AnalyticsAward from '@/views/dashboard/ProgramaForm.vue'
+import Program from '@/views/dashboard/ProgramaForm.vue';
 </script>
