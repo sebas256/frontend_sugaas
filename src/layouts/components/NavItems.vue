@@ -1,7 +1,7 @@
 <script setup>
-import VerticalNavSectionTitle from '@/@layouts/components/VerticalNavSectionTitle.vue'
-import VerticalNavGroup from '@layouts/components/VerticalNavGroup.vue'
-import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
+import VerticalNavSectionTitle from '@/@layouts/components/VerticalNavSectionTitle.vue';
+import VerticalNavGroup from '@layouts/components/VerticalNavGroup.vue';
+import VerticalNavLink from '@layouts/components/VerticalNavLink.vue';
 </script>
 
 <template>
@@ -36,57 +36,49 @@ import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
 
 <VerticalNavLink
       :item="{
-        title: 'Crear Competencia',
+        title: 'Crear Competencias',
         badgeClass: 'bg-light-primary text-primary',
         to: '/competencia',
       }"
     />
 </VerticalNavGroup>
 
+<VerticalNavGroup
+  :item="{
+    title: 'Asociacion',
+    badgeClass: 'bg-error',
+    icon: 'ri-home-smile-line',
+   
+  }"
+>
+
+<VerticalNavLink
+      :item="{
+        title: 'Crear asocacion',
+        badgeClass: 'bg-light-primary text-primary',
+        to: '/programacompetencia',
+      }"
+    />
+</VerticalNavGroup>
+
+
+
+
   <!-- 👉 Front Pages -->
   <VerticalNavGroup
     :item="{
-      title: 'Front Pages',
+      title: 'Resultado Aprendizaje',
       icon: 'ri-file-copy-line',
-      badgeContent: 'Pro',
-      badgeClass: 'bg-light-primary text-primary',
-    }"
+       }"
   >
     <VerticalNavLink
       :item="{
-        title: 'Landing',
-        href: 'https://demos.themeselection.com/materio-vuetify-vuejs-admin-template/demo-1/front-pages/landing-page',
-        target: '_blank',
+        title: 'Res. Aprendizaje',
+        to: '/resultado_aprendizaje',
+       
       }"
     />
-    <VerticalNavLink
-      :item="{
-        title: 'Pricing',
-        href: 'https://demos.themeselection.com/materio-vuetify-vuejs-admin-template/demo-1/front-pages/pricing',
-        target: '_blank',
-      }"
-    />
-    <VerticalNavLink
-      :item="{
-        title: 'Payment',
-        href: 'https://demos.themeselection.com/materio-vuetify-vuejs-admin-template/demo-1/front-pages/payment',
-        target: '_blank',
-      }"
-    />
-    <VerticalNavLink
-      :item="{
-        title: 'Checkout',
-        href: 'https://demos.themeselection.com/materio-vuetify-vuejs-admin-template/demo-1/front-pages/checkout',
-        target: '_blank',
-      }"
-    />
-    <VerticalNavLink
-      :item="{
-        title: 'Help Center',
-        href: 'https://demos.themeselection.com/materio-vuetify-vuejs-admin-template/demo-1/front-pages/help-center',
-        target: '_blank',
-      }"
-    />
+    
   </VerticalNavGroup>
 
   <!-- 👉 Apps & Pages -->

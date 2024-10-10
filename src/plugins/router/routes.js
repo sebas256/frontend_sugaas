@@ -25,6 +25,14 @@ export const routes = [
         component: () => import('@/pages/competencia/competencia.vue'),
       },
       {
+        path: 'programacompetencia',
+        component: () => import('@/pages/programacompetencia/programacompetencia.vue'),
+      },
+      {
+        path: 'resultado_aprendizaje',
+        component: () => import('@/pages/ResultadoAprendizaje/resultadoaprendizaje.vue'),
+      },
+      {
         path: 'icons',
         component: () => import('@/pages/icons.vue'),
       },

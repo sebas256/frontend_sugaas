@@ -7,7 +7,7 @@
       <v-card
         max-width="400"
         prepend-icon="mdi-update"
-        :text="`Esta seguro de borrar el programa con codigo : ${codigo}`"
+        :text="`Esta seguro de borrar : ${mensaje } con codigo : ${codigo}`"
         title="Borrar Programa"
       >
         <template v-slot:actions>
@@ -37,6 +37,11 @@ export default {
       type: String,
       required: true,
     },
+    mensaje: {
+      type: String,
+      required: true,
+    },
+
     },
   data() {
     return {
