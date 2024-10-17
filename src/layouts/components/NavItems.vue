@@ -81,6 +81,24 @@ import VerticalNavLink from '@layouts/components/VerticalNavLink.vue';
     
   </VerticalNavGroup>
 
+  <VerticalNavGroup
+    :item="{
+      title: 'Cargar Guia',
+      icon: 'ri-file-copy-line',
+       }"
+  >
+    <VerticalNavLink
+      :item="{
+        title: 'Cargar guia',
+        to: '/cargar_archivo',
+       
+      }"
+    />
+    
+  </VerticalNavGroup>
+
+
+
   <!-- 👉 Apps & Pages -->
   <VerticalNavSectionTitle
     :item="{

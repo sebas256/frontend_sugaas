@@ -37,7 +37,7 @@
           programa(){
            // let arreglo2 = this.items
            //let obj = arreglo2.find(objeto => objeto.id =  this.programa);
-          this.$emit('selprograma',this.programa)
+          this.$emit('selprograma',this.programa,)
           
           }
         },

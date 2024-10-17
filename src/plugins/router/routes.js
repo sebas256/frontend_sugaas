@@ -33,6 +33,10 @@ export const routes = [
         component: () => import('@/pages/ResultadoAprendizaje/resultadoaprendizaje.vue'),
       },
       {
+        path: 'cargar_archivo',
+        component: () => import('@/pages/archivo/archivocarga.vue'),
+      },
+      {
         path: 'icons',
         component: () => import('@/pages/icons.vue'),
       },
