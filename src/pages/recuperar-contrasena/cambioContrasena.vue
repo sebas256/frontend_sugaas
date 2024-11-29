@@ -24,7 +24,7 @@ const isPasswordVisible = ref(false)
       <VCardItem class="justify-center">
         <!-- eslint-disable vue/no-v-html -->
         <img
-          src="../../../public/suga-sena.png"
+          src="/suga-sena.png"
           alt="Logo"
           width="150"
         />
@@ -119,7 +119,7 @@ export default {
   data: () => ({
     API: process.env.VUE_APP_API,
     loading: false,
-    // email: '',
+    email: '',
     emailRules: [
       value => !!value || 'E-mail is required.',
       value => /.+@.+\..+/.test(value) || 'E-mail must be valid.',
@@ -135,7 +135,7 @@ export default {
   }),
 
   async mounted() {
-    //this.email = this.$store.getters.getUser.email
+    this.email = this.$store.getters.getUser.email
   },
   computed: {
     puede() {
@@ -152,7 +152,6 @@ export default {
         this.passwordError = 'Las contraseñas no coinciden' // Actualiza el mensaje de error
         return
       }
-
       // Limpiar el mensaje de error si todo está correcto
       this.passwordError = ''
       const isValid = this.$refs.form.validate() // Valida el formulario
@@ -163,15 +162,17 @@ export default {
       }
 
       try {
-        const response = await axios.post(`http://localhost:3000/auth/cambiar-contrasena`, {
+        const response = await axios.post(`${import.meta.env.VITE_API_BACKEND}/auth/cambiar-contrasena`, {
           email: this.email,
           password: this.password,
         })
         this.password = ''
         this.confirmPassword = ''
         this.$notify({ text: response.data.message, type: 'success' })
-        store.dispatch('reset')
-        this.$router.push({ path: '/sugas' })
+        if (!this.isAuthenticated) {
+          store.dispatch('reset')
+        }
+        //this.$router.push({ path: '/sugas' })
       } catch (error) {
         if (error.response) {
           // console.error('Error de respuesta:', error.response.data)

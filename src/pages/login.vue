@@ -27,7 +27,7 @@ const isPasswordVisible = ref(false)
         <!-- eslint-disable vue/no-v-html -->
         <div class="d-flex">
           <img
-            src="../../../public/suga-sena.png"
+            src="/suga-sena.png"
             alt="Logo"
             width="150"
           />
@@ -99,7 +99,6 @@ const isPasswordVisible = ref(false)
               <VBtn
                 block
                 type="submit"
-                @click="login"
                 color="#5cb85c"
               >
                 Iniciar sesion
@@ -143,7 +142,7 @@ export default {
       }
 
       try {
-        const response = await axios.post(`http://localhost:3000/auth/login`, {
+        const response = await axios.post(`${import.meta.env.VITE_API_BACKEND}/auth/login`, {
           email: this.email,
           password: this.password,
         })

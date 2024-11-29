@@ -25,7 +25,7 @@ const isPasswordVisible = ref(false)
           <!-- eslint-disable vue/no-v-html -->
           <div class="d-flex">
             <img
-              src="../../../public/suga-sena.png"
+              src="/suga-sena.png"
               alt="Logo"
               width="150"
             />
@@ -125,7 +125,7 @@ export default {
     async CambiarContrasena() {
       try {
         const response = await axios.post(
-          'http://localhost:3000/usuarios/recuperar-contrasena',
+          `${import.meta.env.VITE_API_BACKEND}/usuarios/recuperar-contrasena`,
           { email: this.email },
           {
             headers: {
@@ -142,7 +142,7 @@ export default {
     async fetchProgramas() {
       try {
         const response = await axios.get(
-          `http://localhost:3000/usuarios/${store.getters.getUser.id}/programas-asignados`,
+          `${import.meta.env.VITE_API_BACKEND}/usuarios/${store.getters.getUser.id}/programas-asignados`,
           {
             headers: {
               Authorization: `Bearer ${this.$store.getters.getUser.access_token}`,

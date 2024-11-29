@@ -25,7 +25,7 @@ const isPasswordVisible = ref(false)
         <!-- eslint-disable vue/no-v-html -->
         <div class="d-flex">
           <img
-            src="../../../public/suga-sena.png"
+            src="/suga-sena.png"
             alt="Logo"
             width="100"
           />
@@ -64,7 +64,6 @@ const isPasswordVisible = ref(false)
               <VBtn
                 type="submit"
                 class="me-3"
-                @click="Enviar"
                 color="#5cb85c"
               >
                 Enviar
@@ -101,7 +100,9 @@ export default {
   methods: {
     async Enviar() {
       try {
-        const response = await axios.post('http://localhost:3000/usuarios/recuperar-contrasena', { email: this.email })
+        const response = await axios.post(`${import.meta.env.VITE_API_BACKEND}/usuarios/recuperar-contrasena`, {
+          email: this.email,
+        })
 
         this.$notify({ text: response.data.message, type: 'success' }) // Cambia el tipo según sea necesario;
       } catch (error) {
