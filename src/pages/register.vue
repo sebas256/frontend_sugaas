@@ -1,9 +1,6 @@
 <script setup>
-import logo from '@images/logo.svg?raw'
-import authV1MaskDark from '@images/pages/auth-v1-mask-dark.png'
-import authV1MaskLight from '@images/pages/auth-v1-mask-light.png'
-import authV1Tree2 from '@images/pages/auth-v1-tree-2.png'
-import authV1Tree from '@images/pages/auth-v1-tree.png'
+// import authV1MaskDark from '@images/pages/auth-v1-mask-dark.png'
+// import authV1MaskLight from '@images/pages/auth-v1-mask-light.png'
 import { useTheme } from 'vuetify'
 
 const form = ref({
@@ -23,8 +20,6 @@ const isPasswordVisible = ref(false)
 </script>
 
 <template>
-  <!-- eslint-disable vue/no-v-html -->
-
   <div class="auth-wrapper d-flex align-center justify-center pa-4">
     <VCard
       class="auth-card pa-4 pt-7"
@@ -36,28 +31,35 @@ const isPasswordVisible = ref(false)
           class="d-flex align-center gap-3"
         >
           <!-- eslint-disable vue/no-v-html -->
-          <div
-            class="d-flex"
-            v-html="logo"
-          />
-          <h2 class="font-weight-medium text-2xl text-uppercase">Materio</h2>
+          <div class="d-flex">
+            <img
+              src="../../../public/suga-sena.png"
+              alt="Logo"
+              width="150"
+            />
+          </div>
+          <!-- <h2 class="font-weight-medium text-2xl text-uppercase">Sugas</h2> -->
         </RouterLink>
       </VCardItem>
 
       <VCardText class="pt-2">
-        <h4 class="text-h4 mb-1">Adventure starts here 🚀</h4>
-        <p class="mb-0">Make your app management easy and fun!</p>
+        <h4 class="text-h4 mb-1">Registro de usuarios</h4>
       </VCardText>
 
       <VCardText>
-        <VForm @submit.prevent="() => {}" ref="form">
+        <VForm
+          @submit.prevent="() => {}"
+          ref="form"
+        >
           <VRow>
             <!-- Username -->
+
             <VCol cols="12">
               <VTextField
                 v-model="paquete.name"
                 label="Nombre"
                 type="text"
+                color="#2D882D"
               />
             </VCol>
             <!-- email -->
@@ -67,6 +69,7 @@ const isPasswordVisible = ref(false)
                 label="Email"
                 placeholder="johndoe@email.com"
                 type="email"
+                color="#2D882D"
               />
             </VCol>
 
@@ -76,6 +79,7 @@ const isPasswordVisible = ref(false)
                 v-model="paquete.cedula"
                 label="Cedula"
                 type="number"
+                color="#2D882D"
               />
             </VCol>
 
@@ -85,6 +89,7 @@ const isPasswordVisible = ref(false)
                 v-model="paquete.telefono"
                 label="Telefono"
                 type="number"
+                color="#2D882D"
               />
             </VCol>
             <!-- programas -->
@@ -98,70 +103,36 @@ const isPasswordVisible = ref(false)
                 :type="isPasswordVisible ? 'text' : 'password'"
                 :append-inner-icon="isPasswordVisible ? 'ri-eye-off-line' : 'ri-eye-line'"
                 @click:append-inner="isPasswordVisible = !isPasswordVisible"
+                color="#2D882D"
               />
 
               <!-- rol -->
               <VCol cols="12">
                 <v-select
-                  v-model="paquete.role"
+                  v-model.number="paquete.role"
                   label="Rol"
                   :items="roles"
                   item-title="rol_name"
                   item-value="id"
                   required
                   class="mb-2"
+                  color="#2D882D"
                 ></v-select>
               </VCol>
-              <div class="d-flex align-center my-6">
-                <VCheckbox
-                  id="privacy-policy"
-                  v-moadel="form.privacyPolicies"
-                  inline
-                />
-                <VLabel
-                  for="privacy-policy"
-                  style="opacity: 1"
-                >
-                  <span class="me-1">I agree to</span>
-                  <a
-                    href="javascript:void(0)"
-                    class="text-primary"
-                    >privacy policy & terms</a
-                  >
-                </VLabel>
-              </div>
 
               <v-btn
                 block
                 @click="registrar"
                 type="submit"
-                to="register"
+                color="#5cb85c"
               >
-                Sign up
+                Registrar
               </v-btn>
             </VCol>
           </VRow>
         </VForm>
       </VCardText>
     </VCard>
-
-    <VImg
-      class="auth-footer-start-tree d-none d-md-block"
-      :src="authV1Tree"
-      :width="250"
-    />
-
-    <VImg
-      :src="authV1Tree2"
-      class="auth-footer-end-tree d-none d-md-block"
-      :width="350"
-    />
-
-    <!-- bg img -->
-    <VImg
-      class="auth-footer-mask d-none d-md-block"
-      :src="authThemeMask"
-    />
   </div>
 </template>
 <script>
@@ -208,13 +179,10 @@ export default {
         this.dialog = true
 
         const response = await axios.post('http://localhost:3000/auth/register', this.paquete, {
-            headers: {
-              Authorization: `Bearer ${this.$store.getters.getUser.access_token}`,
-            },
-         }
-       )
-
-        console.log(response.data) // Suponiendo que la respuesta incluye un mensaje.
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.getUser.access_token}`,
+          },
+        })
         this.$notify({ text: 'Usuario guardado con éxito...', type: 'success' }) // Cambia el tipo según sea necesario);
         this.resetForm()
         this.$emit('pguardar')
@@ -225,11 +193,11 @@ export default {
     },
     async fetchRoles() {
       try {
-        const response = await axios.get('http://localhost:3000/roles',{
-        headers: {
+        const response = await axios.get('http://localhost:3000/roles', {
+          headers: {
             Authorization: `Bearer ${this.$store.getters.getUser.access_token}`,
           },
-      })
+        })
         this.roles = response.data
       } catch (error) {
         console.error('Error al obtener los roles:', error)
@@ -245,6 +213,13 @@ export default {
   },
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @use '@core/scss/template/pages/page-auth';
+.bg-primary {
+  background-color: green !important;
+  color: rgb(var(--v-theme-on-primary)) !important;
+}
+.text-primary {
+  color: green !important;
+}
 </style>

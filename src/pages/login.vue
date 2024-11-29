@@ -1,9 +1,6 @@
 <script setup>
-import logo from '@images/logo.svg?raw'
-import authV1MaskDark from '@images/pages/auth-v1-mask-dark.png'
-import authV1MaskLight from '@images/pages/auth-v1-mask-light.png'
-import authV1Tree2 from '@images/pages/auth-v1-tree-2.png'
-import authV1Tree from '@images/pages/auth-v1-tree.png'
+// import authV1MaskDark from '@images/pages/auth-v1-mask-dark.png'
+// import authV1MaskLight from '@images/pages/auth-v1-mask-light.png'
 import { useTheme } from 'vuetify'
 const form = ref({
   email: '',
@@ -27,22 +24,19 @@ const isPasswordVisible = ref(false)
       max-width="448"
     >
       <VCardItem class="justify-center">
-        <RouterLink
-          to="/"
-          class="d-flex align-center gap-3"
-        >
-          <!-- eslint-disable vue/no-v-html -->
-          <div
-            class="d-flex"
-            v-html="logo"
+        <!-- eslint-disable vue/no-v-html -->
+        <div class="d-flex">
+          <img
+            src="../../../public/suga-sena.png"
+            alt="Logo"
+            width="150"
           />
-          <h2 class="font-weight-medium text-2xl text-uppercase">Sugaas</h2>
-        </RouterLink>
+        </div>
       </VCardItem>
 
-      <VCardText class="pt-2">
-        <h4 class="text-h4 mb-1">Welcome to Sugaas! 👋🏻</h4>
-        <p class="mb-0">Please sign-in to your account and start the adventure</p>
+      <VCardText class="pt-2 text-center">
+        <h4 class="text-h4 mb-1">Bienvenido a SUGA! 👋🏻</h4>
+        <p class="mb-0">Inicia sesión con tus credenciales.</p>
       </VCardText>
 
       <VCardText>
@@ -57,35 +51,47 @@ const isPasswordVisible = ref(false)
               <v-text-field
                 v-model="email"
                 :rules="emailRules"
-                label="Email"
+                label="Correo electronico"
                 placeholder="example@example.com"
+                autocomplete="email"
               />
             </VCol>
+            <p
+              v-if="emailError"
+              style="color: red"
+            >
+              {{ emailError }}
+            </p>
 
             <!-- password -->
             <VCol cols="12">
               <v-text-field
                 v-model="password"
-                label="Password"
+                label="Contraseña"
                 :rules="passwordRules"
                 placeholder="············"
                 :type="isPasswordVisible ? 'text' : 'password'"
                 :append-inner-icon="isPasswordVisible ? 'ri-eye-off-line' : 'ri-eye-line'"
                 @click:append-inner="isPasswordVisible = !isPasswordVisible"
               />
-
+              <p
+                v-if="passwordError"
+                style="color: red"
+              >
+                {{ passwordError }}
+              </p>
               <!-- remember me checkbox -->
               <div class="d-flex align-center justify-space-between flex-wrap my-6">
                 <VCheckbox
                   v-model="form.remember"
-                  label="Remember me"
+                  label="Recordar"
                 />
 
                 <a
                   class="text-primary"
-                  href="javascript:void(0)"
+                  href="/validar"
                 >
-                  Forgot Password?
+                  ¿Has olvidado tu contraseña?
                 </a>
               </div>
 
@@ -94,46 +100,17 @@ const isPasswordVisible = ref(false)
                 block
                 type="submit"
                 @click="login"
+                color="#5cb85c"
               >
-                Login
+                Iniciar sesion
               </VBtn>
-            </VCol>
-
-            <!-- create account -->
-            <VCol
-              cols="12"
-              class="text-center text-base"
-            >
-              <span>New on our platform?</span>
-              <RouterLink
-                class="text-primary ms-2"
-                to="/register"
-              >
-                Create an account
-              </RouterLink>
             </VCol>
           </VRow>
         </v-form>
       </VCardText>
     </VCard>
 
-    <VImg
-      class="auth-footer-start-tree d-none d-md-block"
-      :src="authV1Tree"
-      :width="250"
-    />
-
-    <VImg
-      :src="authV1Tree2"
-      class="auth-footer-end-tree d-none d-md-block"
-      :width="350"
-    />
-
     <!-- bg img -->
-    <VImg
-      class="auth-footer-mask d-none d-md-block"
-      :src="authThemeMask"
-    />
   </div>
 </template>
 <script>
@@ -149,6 +126,8 @@ export default {
       value => /.+@.+\..+/.test(value) || 'E-mail must be valid.',
     ],
     password: '',
+    passwordError: '',
+    emailError: '',
     passwordRules: [
       value => !!value || 'Password is required.',
       // Agregar más reglas según sea necesario
@@ -169,27 +148,27 @@ export default {
           password: this.password,
         })
 
-        console.log(response)
         this.$store.commit('setUser', response.data)
 
+        this.$notify({ text: 'Login exitoso', type: 'success' })
         this.$store.dispatch('login')
+
         this.$router.push({ path: '/sugas' })
       } catch (error) {
-        if (error.response) {
-          console.error('Error de respuesta:', error.response.data)
-          console.error('Código de estado:', error.response.status)
-          console.error('Encabezados:', error.response.headers)
+        if (error.response.data.message === 'Incorrect password') {
+          //this.$notify({ text: 'Contraseña incorrecta', type: 'error' })
+          this.passwordError = 'Contraseña incorrecta'
+        } else if (error.response.data.message === 'Invalid credentials') {
+          //this.$notify({ text: 'El usuario no existe', type: 'error' })
+          this.emailError = 'El usuario no existe'
         } else if (error.request) {
-          console.error('Sin respuesta del servidor:', error.request)
+          //  console.error('Sin respuesta del servidor:', error.request)
         } else {
-          console.error('Error en la solicitud:', error.message)
+          // console.error('Error en la solicitud:', error.message)
         }
-        console.error('Configuración completa del error:', error.config)
+        //console.error('Configuración completa del error:', error.config)
       }
     },
   },
 }
 </script>
-<style lang="scss">
-@use '@core/scss/template/pages/page-auth';
-</style>

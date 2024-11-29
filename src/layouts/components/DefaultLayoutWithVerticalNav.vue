@@ -1,17 +1,20 @@
 <script setup>
-import NavItems from '@/layouts/components/NavItems.vue'
-import logo from '@images/logo.svg?raw'
-import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
 import Footer from '@/layouts/components/Footer.vue'
-import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
+import NavItemsAdmin from '@/layouts/components/NavItemsAdmin.vue'
 import UserProfile from '@/layouts/components/UserProfile.vue'
+import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
+import NavItemsCoordinador from './NavItemsCoordinador.vue'
+import NavItemsInstructor from './NavItemsInstructor.vue'
 </script>
 
 <template>
   <VerticalNavLayout>
     <!-- 👉 navbar -->
-    <template #navbar="{ toggleVerticalOverlayNavActive }">
-      <div class="d-flex h-100 align-center">
+    <template
+      #navbar="{ toggleVerticalOverlayNavActive }"
+      class="position-sticky"
+    >
+      <div class="d-flex h-100 align-center position-sticky">
         <!-- 👉 Vertical nav toggle in overlay mode -->
         <IconBtn
           class="ms-n3 d-lg-none"
@@ -22,35 +25,25 @@ import UserProfile from '@/layouts/components/UserProfile.vue'
 
         <!-- 👉 Search -->
         <div
-          class="d-flex align-center cursor-pointer"
-          style="user-select: none;"
+          class="d-flex align-center cursor-pointer position-relative ms-6"
+          style="user-select: none"
         >
           <!-- 👉 Search Trigger button -->
-          <IconBtn>
+          <!-- <IconBtn>
             <VIcon icon="ri-search-line" />
-          </IconBtn>
+          </IconBtn> -->
 
-          <span class="d-none d-md-flex align-center text-disabled">
-            <span class="me-3">Search</span>
-            <span class="meta-key">&#8984;K</span>
+          <span class="app-logo">
+            <img
+              src="../../../public/suga-sena.png"
+              alt="Logo sena"
+              width="100"
+            />
+            <span class="app-logo-title">Sistema único de guias de aprendizaje</span>
           </span>
         </div>
 
         <VSpacer />
-
-        <IconBtn
-          href="https://github.com/themeselection/materio-vuetify-vuejs-admin-template-free"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <VIcon icon="ri-github-fill" />
-        </IconBtn>
-
-        <IconBtn>
-          <VIcon icon="ri-notification-line" />
-        </IconBtn>
-
-        <NavbarThemeSwitcher class="me-2" />
 
         <UserProfile />
       </div>
@@ -62,15 +55,17 @@ import UserProfile from '@/layouts/components/UserProfile.vue'
         class="app-logo app-title-wrapper"
       >
         <!-- eslint-disable vue/no-v-html -->
-        <div
-          class="d-flex"
-          v-html="logo"
-        />
+        <div class="d-flex">
+          <img
+            src="../../../public/logo.png"
+            alt="Logo"
+            width="180"
+            height="130"
+          />
+        </div>
         <!-- eslint-enable -->
 
-        <h1 class="font-weight-medium leading-normal text-xl text-uppercase">
-          SUGAS
-        </h1>
+        <!-- <h1 class="font-weight-medium leading-normal text-xl text-uppercase">SUGA</h1> -->
       </RouterLink>
 
       <IconBtn
@@ -82,7 +77,9 @@ import UserProfile from '@/layouts/components/UserProfile.vue'
     </template>
 
     <template #vertical-nav-content>
-      <NavItems />
+      <NavItemsAdmin v-if="userRole === 'admin'" />
+      <NavItemsCoordinador v-if="userRole === 'coordinador'" />
+      <NavItemsInstructor v-if="userRole === 'instructor'" />
     </template>
 
     <!-- 👉 Pages -->
@@ -94,7 +91,19 @@ import UserProfile from '@/layouts/components/UserProfile.vue'
     </template>
   </VerticalNavLayout>
 </template>
-
+<script>
+export default {
+  data() {
+    return {
+      userRole: '',
+    }
+  },
+  computed: {},
+  mounted() {
+    this.userRole = this.$store.getters.getUser.rol
+  },
+}
+</script>
 <style lang="scss" scoped>
 .meta-key {
   border: thin solid rgba(var(--v-border-color), var(--v-border-opacity));
@@ -111,10 +120,13 @@ import UserProfile from '@/layouts/components/UserProfile.vue'
   column-gap: 0.75rem;
 
   .app-logo-title {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     font-weight: 500;
     line-height: 1.75rem;
     text-transform: uppercase;
   }
+}
+.position-sticky {
+  position: sticky !important;
 }
 </style>

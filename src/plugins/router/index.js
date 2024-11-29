@@ -10,25 +10,42 @@ const router = createRouter({
 
 // Middleware para autenticación
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!store.state.isAuthenticated) {
-      next(from)
-    } else if (to.matched.some(record => record.meta.requiresAdmin)) {
-      if (store.state.user.rol !== 'admin') {
-        next({ path: '/sugas' }) // Si no es admin, redirige al home
-      } else {
-        next()
-      }
-    } else {
-      next()
+  const isAuthenticated = store.state.isAuthenticated
+  const userRole = store.state.user?.rol || ''
+  const puede = store.state.puede || false
+
+  if (to.matched.some(record => record.meta.puede)) {
+    if (!puede) {
+      return next({ path: '/sugas' }) // Redirige a la ruta anterior si no puede
     }
-  } else {
-    next()
   }
+
+  // Si la ruta requiere autenticación
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!isAuthenticated) {
+      return next(from) // Redirige a la ruta anterior si no está autenticado
+    }
+
+    // Verificación para admin
+    if (to.matched.some(record => record.meta.requiresAdmin)) {
+      if (userRole !== 'admin') {
+        return next({ path: '/sugas' }) // Si no es admin, redirige
+      }
+    }
+
+    // Verificación para admin o coordinador
+    if (to.matched.some(record => record.meta.requiresAdmin && record.meta.requiresCoordinador)) {
+      if (userRole !== 'admin' && userRole !== 'coordinador') {
+        return next({ path: '/sugas' }) // Si no es admin ni coordinador, redirige
+      }
+    }
+  }
+
+  next()
 })
 
 export default function (app) {
   app.use(router)
 }
-export { router }
 
+export { router }

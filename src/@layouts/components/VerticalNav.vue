@@ -1,7 +1,7 @@
 <script setup>
+import logo from '@images/logo.svg?raw'
 import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
 import { useDisplay } from 'vuetify'
-import logo from '@images/logo.svg?raw'
 
 const props = defineProps({
   tag: {
@@ -27,12 +27,15 @@ Close overlay vertical nav when link is clicked
 */
 const route = useRoute()
 
-watch(() => route.path, () => {
-  props.toggleIsOverlayNavActive(false)
-})
+watch(
+  () => route.path,
+  () => {
+    props.toggleIsOverlayNavActive(false)
+  },
+)
 
 const isVerticalNavScrolled = ref(false)
-const updateIsVerticalNavScrolled = val => isVerticalNavScrolled.value = val
+const updateIsVerticalNavScrolled = val => (isVerticalNavScrolled.value = val)
 
 const handleNavScroll = evt => {
   isVerticalNavScrolled.value = evt.target.scrollTop > 0
@@ -44,18 +47,18 @@ const handleNavScroll = evt => {
   <Component
     :is="props.tag"
     ref="refNav"
-    class="layout-vertical-nav"
+    class="layout-vertical-nav navbar-side-color"
     :class="[
       {
-        'visible': isOverlayNavActive,
-        'scrolled': isVerticalNavScrolled,
+        visible: isOverlayNavActive,
+        scrolled: isVerticalNavScrolled,
         'overlay-nav': mdAndDown,
       },
     ]"
   >
     <!-- 👉 Header -->
-    <div class="nav-header">
-      <slot name="nav-header">
+    <div class="mt-4">
+      <!-- <slot name="nav-header">
         <RouterLink
           to="/"
           class="app-logo app-title-wrapper"
@@ -65,11 +68,9 @@ const handleNavScroll = evt => {
             v-html="logo"
           />
 
-          <h1 class="font-weight-medium leading-normal text-xl text-uppercase">
-            Materio
-          </h1>
+          <h1 class="font-weight-medium leading-normal text-xl text-uppercase">SUGAS</h1>
         </RouterLink>
-      </slot>
+      </slot> -->
     </div>
     <slot name="before-nav-items">
       <div class="vertical-nav-items-shadow" />
@@ -107,8 +108,8 @@ const handleNavScroll = evt => {
 </style>
 
 <style lang="scss">
-@use "@configured-variables" as variables;
-@use "@layouts/styles/mixins";
+@use '@configured-variables' as variables;
+@use '@layouts/styles/mixins';
 
 // 👉 Vertical Nav
 .layout-vertical-nav {
@@ -168,6 +169,11 @@ const handleNavScroll = evt => {
       inline-size: variables.$layout-vertical-nav-collapsed-width;
     }
   }
+}
+
+.layout-nav-type-vertical .layout-vertical-nav .nav-link > .router-link-exact-active {
+    background: linear-gradient(-72.47deg, rgb(var(--v-theme-primary)) 22.16%, rgba(var(--v-theme-primary), 0.7) 76.47%) !important;
+    box-shadow: 0 3px 6px 0 rgba(var(--v-shadow-key-umbra-color), var(--v-shadow-sm-opacity)), 0 0 transparent, 0 0 transparent;
 }
 
 // Small screen vertical nav transition
