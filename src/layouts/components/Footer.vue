@@ -4,7 +4,7 @@
     <span class="d-flex align-center">
       &copy;
       {{ new Date().getFullYear() }}
-      Desarrollado por ADSO 2670667
+      Sistema unico de guias de aprendizaje - SUGA desarrollado por ficha ADSO 2670667
     </span>
   </div>
 </template>

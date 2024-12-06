@@ -47,7 +47,7 @@
                   <v-btn
                     color="error"
                     icon
-                    @click="predelete(item.codigo)"
+                    @click="predelete(item.id)"
                   >
                     <v-icon icon="ri-delete-bin-line"></v-icon>
                   </v-btn>
@@ -84,13 +84,11 @@ export default {
       headers: [
         { title: 'Nombre', value: 'nombre' },
         { title: 'Duración', value: 'duracion' },
-        { title: 'Código', value: 'codigo' },
         { title: 'Acciones', value: 'actions', sortable: false },
       ],
       headers2: [
         { title: 'Nombre', value: 'nombre' },
         { title: 'Duración', value: 'duracion' },
-        { title: 'Código', value: 'codigo' },
       ],
     }
   },
@@ -104,7 +102,7 @@ export default {
         obj.competenciaId = ids
         console.log('competencia ID: ', obj.competenciaId)
         try {
-          const response = await axios.post(`${import.meta.env.VITE_API_BACKEND}/programacompetencia`, obj, {
+          const response = await axios.post(`http://localhost:3000/programacompetencia`, obj, {
             headers: {
               Authorization: `Bearer ${this.$store.getters.getUser.access_token}`,
             },
@@ -126,7 +124,7 @@ export default {
 
       if (this.programa !== null) {
         this.limpiar = true
-        const response = await axios.get(`${import.meta.env.VITE_API_BACKEND}/programa/codigo/${this.programa}`, {
+        const response = await axios.get(`http://localhost:3000/programa/codigo/${this.programa}`, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.getUser.access_token}`,
           },
@@ -156,7 +154,7 @@ export default {
     async delcompetprograma(id) {
       try {
         const response = await axios.delete(
-          `${import.meta.env.VITE_API_BACKEND}/programacompetencia/${this.programa}/competencia/${id}`,
+          `http://localhost:3000/programacompetencia/${this.programa}/competencia/${id}`,
           {
             headers: {
               Authorization: `Bearer ${this.$store.getters.getUser.access_token}`,

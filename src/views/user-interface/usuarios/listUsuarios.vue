@@ -1,5 +1,5 @@
 <template>
-  <VCard title="LISTADO DE INSTRUCTORES POR PROGRAMAS">
+  <VCard title="LISTADO DE USUARIOS">
     <template v-slot:text>
       <v-text-field
         v-model="search"
@@ -10,20 +10,11 @@
         single-line
       ></v-text-field>
     </template>
-    <v-select
-      v-model="programaSelected"
-      label="Programa"
-      :items="programs"
-      item-title="nombre"
-      item-value="id"
-      class="mx-auto w-50"
-      @update:model-value="fechtInstructoresPorPrograma"
-      no-data-text="No hay programas disponibles"
-    ></v-select>
+
     <VCardText class="d-flex flex-column gap-y-8">
       <v-data-table
         :headers="headers"
-        :items="competencias"
+        :items="usuarios"
         items-per-page="5"
         :search="search"
       >
@@ -31,14 +22,6 @@
           v-if="userRole === 'admin'"
           v-slot:item.actions="{ item }"
         >
-          <v-btn
-            class="mr-5"
-            color="success"
-            icon
-            @click="editProgram(item)"
-          >
-            <v-icon icon="ri-pencil-fill"></v-icon>
-          </v-btn>
           <v-btn
             color="error"
             icon
@@ -72,9 +55,7 @@ export default {
   data() {
     return {
       search: '',
-      programaSelected: null,
-      programs: [],
-      competencias: [],
+      usuarios: [],
       show: false,
       codigo: null,
       mensaje: null,
@@ -95,65 +76,28 @@ export default {
         { title: 'Celular', value: 'telefono' },
         { title: 'Rol', value: 'role.rol_name' },
       ]
-
       if (this.userRole === 'admin') {
         baseHeaders.push({ title: 'Acciones', value: 'actions', sortable: false })
       }
-
       return baseHeaders
     },
   },
   async mounted() {
-    this.fechtInstructoresPorPrograma()
-
-    this.fetchProgramas()
+    await this.fechtInstructores()
   },
   methods: {
-    async fechtInstructoresPorPrograma() {
-      if (this.programaSelected) {
-        try {
-          const response = await axios.get(`http://localhost:3000/programa/${this.programaSelected}/instructores`, {
-            headers: {
-              Authorization: `Bearer ${this.$store.getters.getUser.access_token}`,
-            },
-          })
-          this.competencias = response.data
-
-          this.$emit('plistado')
-        } catch (error) {
-          console.error('Error fetching competencies:', error)
-        }
-      }
-    },
-
-    async fetchProgramas() {
+    async fechtInstructores() {
       try {
-        const response = await axios.get('http://localhost:3000/programa', {
+        const response = await axios.get(`${import.meta.env.VITE_API_BACKEND}/usuarios/`, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.getUser.access_token}`,
           },
         })
-        this.programs = response.data
+        this.usuarios = response.data
       } catch (error) {
-        console.error('Error fetching programs:', error)
+        console.error('Error fetching instructors:', error)
       }
     },
-    async fetchProgramasAsignadas() {
-      try {
-        const response = await axios.get(
-          `http://localhost:3000/usuarios/${this.$store.getters.getUser.id}/programas-asignados`,
-          {
-            headers: {
-              Authorization: `Bearer ${this.$store.getters.getUser.access_token}`,
-            },
-          },
-        )
-        this.programs = response.data // Guardar las competencias asignadas
-      } catch (error) {
-        console.error('Error fetching assigned competencies:', error)
-      }
-    },
-
     editProgram(item) {
       this.$emit('editar', item)
     },
@@ -168,19 +112,20 @@ export default {
     },
 
     async deleteInstructor(codigo) {
-      console.log(codigo)
-      const response = await axios.delete(
-        `http://localhost:3000/programas-instructor/programa/${this.programaSelected}/instructor/${codigo}`,
-        {
+      try {
+        const response = await axios.delete(`${import.meta.env.VITE_API_BACKEND}/usuarios/${codigo}/`, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.getUser.access_token}`,
           },
-        },
-      )
-      this.$notify({ text: 'Programa eliminado con éxito...', type: 'success' })
-      this.show = false
-      this.codigo = null
-      this.fechtInstructoresPorPrograma()
+        })
+        this.$notify({ text: 'Usuario eliminado con éxito...', type: 'success' })
+        this.show = false
+        this.codigo = null
+        this.fechtInstructores()
+      } catch (error) {
+        this.$notify({ text: error.response.data.message, type: 'error' })
+        this.show = false
+      }
     },
   },
 

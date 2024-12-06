@@ -1,10 +1,5 @@
 <script setup>
-import { defineProps } from 'vue'
 import { useTheme } from 'vuetify'
-
-const props = defineProps({
-  email: String,
-})
 
 const vuetifyTheme = useTheme()
 
@@ -24,14 +19,14 @@ const isPasswordVisible = ref(false)
       <VCardItem class="justify-center">
         <!-- eslint-disable vue/no-v-html -->
         <img
-          src="../../../public/logo.png"
+          src="/suga-sena.png"
           alt="Logo"
           width="150"
         />
       </VCardItem>
 
       <VCardText class="pt-2">
-        <h4 class="text-h4 mb-1">Welcome to Sugaas! 👋🏻</h4>
+        <h4 class="text-h4 mb-1">¡Cambio de contraseña! ⚙️</h4>
         <p class="mb-0">Ingrese su nueva contrasena</p>
       </VCardText>
 
@@ -47,7 +42,7 @@ const isPasswordVisible = ref(false)
               <v-text-field
                 :disabled="!puede"
                 v-model="password"
-                label="Password"
+                label="Nueva contraseña"
                 :rules="passwordRules"
                 placeholder="············"
                 :type="isPasswordVisible ? 'text' : 'password'"
@@ -61,7 +56,7 @@ const isPasswordVisible = ref(false)
               <v-text-field
                 :disabled="!puede"
                 v-model="confirmPassword"
-                label="Confirm Password"
+                label="Confirmar contraseña"
                 :rules="passwordRules"
                 placeholder="············"
                 :type="isPasswordVisible ? 'text' : 'password'"
@@ -82,12 +77,26 @@ const isPasswordVisible = ref(false)
 
               <!-- login button -->
               <VBtn
-                block
                 type="submit"
                 :disabled="!puede"
-                color="#fc7323"
+                color="#5cb85c"
+                class="me-3"
               >
                 Cambiar contraseña
+              </VBtn>
+              <VBtn
+                v-if="isAuthenticated"
+                color="#0090A5"
+                @click="$router.go(-1)"
+              >
+                Volver
+              </VBtn>
+              <VBtn
+                v-if="!isAuthenticated"
+                color="#0090A5"
+                to="/login"
+              >
+                Volver
               </VBtn>
             </VCol>
           </VRow>
@@ -99,13 +108,12 @@ const isPasswordVisible = ref(false)
   </div>
 </template>
 <script>
-import store from '@/store'
 import axios from 'axios'
 export default {
   data: () => ({
     API: process.env.VUE_APP_API,
     loading: false,
-    // email: '',
+    email: '',
     emailRules: [
       value => !!value || 'E-mail is required.',
       value => /.+@.+\..+/.test(value) || 'E-mail must be valid.',
@@ -121,11 +129,14 @@ export default {
   }),
 
   async mounted() {
-    //this.email = this.$store.getters.getUser.email
+    this.email = this.$store.getters.getUser.email
   },
   computed: {
     puede() {
       return this.$store.state.puede
+    },
+    isAuthenticated() {
+      return this.$store.state.isAuthenticated
     },
   },
   methods: {
@@ -135,7 +146,6 @@ export default {
         this.passwordError = 'Las contraseñas no coinciden' // Actualiza el mensaje de error
         return
       }
-
       // Limpiar el mensaje de error si todo está correcto
       this.passwordError = ''
       const isValid = this.$refs.form.validate() // Valida el formulario
@@ -146,15 +156,15 @@ export default {
       }
 
       try {
-        const response = await axios.post(`http://localhost:3000/auth/cambiar-contrasena`, {
+        const response = await axios.post(`${import.meta.env.VITE_API_BACKEND}/auth/cambiar-contrasena`, {
           email: this.email,
           password: this.password,
         })
         this.password = ''
         this.confirmPassword = ''
         this.$notify({ text: response.data.message, type: 'success' })
-        store.dispatch('reset')
-        this.$router.push({ path: '/sugas' })
+
+        //this.$router.push({ path: '/sugas' })
       } catch (error) {
         if (error.response) {
           // console.error('Error de respuesta:', error.response.data)

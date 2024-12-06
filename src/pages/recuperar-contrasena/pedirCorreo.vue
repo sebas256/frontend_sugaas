@@ -25,16 +25,15 @@ const isPasswordVisible = ref(false)
         <!-- eslint-disable vue/no-v-html -->
         <div class="d-flex">
           <img
-            src="/suga-sena.png"
+            src="../../../public/logo.png"
             alt="Logo"
             width="100"
           />
         </div>
-        <h2 class="font-weight-medium text-2xl text-uppercase">Sugaas</h2>
       </VCardItem>
 
       <VCardText class="pt-2">
-        <h4 class="text-h4 mb-1">Bienvenido a Sugaas! 👋🏻</h4>
+        <h4 class="text-h4 mb-1">Restablecer contraseña Suga!</h4>
         <p class="mb-0">Le enviaremos un correo para restablecer su contrasena</p>
       </VCardText>
 
@@ -50,30 +49,20 @@ const isPasswordVisible = ref(false)
               <v-text-field
                 v-model="email"
                 :rules="emailRules"
-                label="Correo electronico"
+                label="Correo"
                 placeholder="example@example.com"
                 autocomplete="email"
               />
             </VCol>
 
             <VCol cols="12">
-              <!-- enviar button 
-               VERDE: color="#5cb85c"
-               AZUL: color="#0090A5"
-               -->
               <VBtn
+                block
                 type="submit"
-                class="me-3"
-                color="#5cb85c"
+                @click="Enviar"
+                color="#fc7323"
               >
                 Enviar
-              </VBtn>
-
-              <VBtn
-                @click="() => $router.go(-1)"
-                color="#0090A5"
-              >
-                Volver
               </VBtn>
             </VCol>
           </VRow>
@@ -100,9 +89,7 @@ export default {
   methods: {
     async Enviar() {
       try {
-        const response = await axios.post(`${import.meta.env.VITE_API_BACKEND}/usuarios/recuperar-contrasena`, {
-          email: this.email,
-        })
+        const response = await axios.post('http://localhost:3000/usuarios/recuperar-contrasena', { email: this.email })
 
         this.$notify({ text: response.data.message, type: 'success' }) // Cambia el tipo según sea necesario;
       } catch (error) {

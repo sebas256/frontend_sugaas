@@ -1,4 +1,6 @@
 <script setup>
+// import authV1MaskDark from '@images/pages/auth-v1-mask-dark.png'
+// import authV1MaskLight from '@images/pages/auth-v1-mask-light.png'
 import { useTheme } from 'vuetify'
 
 const vuetifyTheme = useTheme()
@@ -25,9 +27,9 @@ const isPasswordVisible = ref(false)
           <!-- eslint-disable vue/no-v-html -->
           <div class="d-flex">
             <img
-              src="/suga-sena.png"
+              src="../../../public/logo.png"
               alt="Logo"
-              width="150"
+              width="120"
             />
           </div>
           <!-- <h2 class="font-weight-medium text-2xl text-uppercase">Sugas</h2> -->
@@ -83,9 +85,9 @@ const isPasswordVisible = ref(false)
             <VCol cols="12">
               <v-btn
                 block
-                to="/sugas/cambiar-contrasena"
+                to="/auth"
                 type="submit"
-                color="#5cb85c"
+                color="primary"
                 class="btn-submit"
               >
                 Cambiar contraseña
@@ -125,7 +127,7 @@ export default {
     async CambiarContrasena() {
       try {
         const response = await axios.post(
-          `${import.meta.env.VITE_API_BACKEND}/usuarios/recuperar-contrasena`,
+          'http://localhost:3000/usuarios/recuperar-contrasena',
           { email: this.email },
           {
             headers: {
@@ -142,7 +144,7 @@ export default {
     async fetchProgramas() {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_BACKEND}/usuarios/${store.getters.getUser.id}/programas-asignados`,
+          `http://localhost:3000/usuarios/${store.getters.getUser.id}/programas-asignados`,
           {
             headers: {
               Authorization: `Bearer ${this.$store.getters.getUser.access_token}`,
@@ -194,7 +196,7 @@ p.user-info {
 }
 
 .btn-submit {
-  background-color: #2d882d !important;
+  background-color: #fc7323 !important;
   color: white !important;
   font-weight: 600;
 }

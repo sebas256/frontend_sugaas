@@ -36,7 +36,7 @@
           v-if="!item"
           class="mt-3"
           @click="guardar()"
-          color="#5cb85c"
+          color="#fc7323"
           >Guardar</v-btn
         >
         <v-btn
@@ -93,7 +93,7 @@ export default {
       if (this.$refs.form.validate()) {
         try {
           this.dialog = true
-          const response = await axios.post(`${import.meta.env.VITE_API_BACKEND}/programas-instructor`, this.paquete, {
+          const response = await axios.post('http://localhost:3000/programas-instructor', this.paquete, {
             headers: { Authorization: `Bearer ${this.$store.getters.getUser.access_token}` },
           })
 
@@ -113,7 +113,7 @@ export default {
     // async editar() {
     //   try {
     //     this.dialog = true
-    //     const response = await axios.patch(`${import.meta.env.VITE_API_BACKEND}/programa/${this.id}`, this.paquete)
+    //     const response = await axios.patch(`http://localhost:3000/programa/${this.id}`, this.paquete)
     //     this.$notify({ text: 'Programa editado con éxito...', type: 'success' })
     //     this.resetForm()
     //     this.$emit('peditar')
@@ -125,7 +125,7 @@ export default {
 
     async fetchInstructores() {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_BACKEND}/usuarios`, {
+        const response = await axios.get('http://localhost:3000/usuarios', {
           headers: {
             Authorization: `Bearer ${this.$store.getters.getUser.access_token}`,
           },
@@ -139,7 +139,7 @@ export default {
 
     async fetchProgramas() {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_BACKEND}/programa`, {
+        const response = await axios.get('http://localhost:3000/programa', {
           headers: {
             Authorization: `Bearer ${this.$store.getters.getUser.access_token}`,
           },
@@ -154,7 +154,7 @@ export default {
       if (this.paquete.instructor) {
         try {
           const response = await axios.get(
-            `${import.meta.env.VITE_API_BACKEND}/usuarios/${this.paquete.instructor}/programas-asignados`,
+            `http://localhost:3000/usuarios/${this.paquete.instructor}/programas-asignados`,
             {
               headers: {
                 Authorization: `Bearer ${this.$store.getters.getUser.access_token}`,
@@ -172,7 +172,7 @@ export default {
       if (this.paquete.instructor) {
         try {
           const response = await axios.get(
-            `${import.meta.env.VITE_API_BACKEND}/usuarios/${this.paquete.instructor}/programas-no-asignados`,
+            `http://localhost:3000/usuarios/${this.paquete.instructor}/programas-no-asignados`,
             {
               headers: {
                 Authorization: `Bearer ${this.$store.getters.getUser.access_token}`,

@@ -88,14 +88,11 @@ export default {
   methods: {
     async recargar() {
       if (this.programa && this.competencia) {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_BACKEND}/resultados/${this.programa}/${this.competencia}`,
-          {
-            headers: {
-              Authorization: `Bearer ${this.$store.getters.getUser.access_token}`,
-            },
+        const response = await axios.get(`http://localhost:3000/resultados/${this.programa}/${this.competencia}`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.getUser.access_token}`,
           },
-        )
+        })
         this.programs = response.data
         this.$emit('plistado')
       }
@@ -115,7 +112,7 @@ export default {
     },
 
     async deleteResultado(codigo) {
-      const response = await axios.delete(`${import.meta.env.VITE_API_BACKEND}/resultados/codigo/${codigo}`, {
+      const response = await axios.delete(`http://localhost:3000/resultados/codigo/${codigo}`, {
         headers: {
           Authorization: `Bearer ${this.$store.getters.getUser.access_token}`,
         },

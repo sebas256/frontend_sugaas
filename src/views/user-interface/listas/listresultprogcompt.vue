@@ -46,14 +46,11 @@ export default {
     async competencia() {
       if (this.competencia != null && this.programa != null) {
         this.resultado = null
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_BACKEND}/resultados/${this.programa}/${this.competencia}`,
-          {
-            headers: {
-              Authorization: `Bearer ${this.$store.getters.getUser.access_token}`,
-            },
+        const response = await axios.get(`http://localhost:3000/resultados/${this.programa}/${this.competencia}`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.getUser.access_token}`,
           },
-        )
+        })
         this.items = response.data
       }
     },
@@ -61,14 +58,11 @@ export default {
     async programa() {
       if (this.competencia != null && this.programa != null) {
         this.resultado = null
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_BACKEND}/resultados/${this.programa}/${this.competencia}`,
-          {
-            headers: {
-              Authorization: `Bearer ${this.$store.getters.getUser.access_token}`,
-            },
+        const response = await axios.get(`http://localhost:3000/resultados/${this.programa}/${this.competencia}`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.getUser.access_token}`,
           },
-        )
+        })
         this.items = response.data
       }
     },

@@ -33,9 +33,9 @@ const isPasswordVisible = ref(false)
           <!-- eslint-disable vue/no-v-html -->
           <div class="d-flex">
             <img
-              src="/suga-sena.png"
+              src="../../../public/logo.png"
               alt="Logo"
-              width="150"
+              width="120"
             />
           </div>
           <!-- <h2 class="font-weight-medium text-2xl text-uppercase">Sugas</h2> -->
@@ -72,12 +72,6 @@ const isPasswordVisible = ref(false)
                 color="#2D882D"
               />
             </VCol>
-            <span
-              v-if="emailError"
-              style="color: red"
-            >
-              {{ emailError }}
-            </span>
 
             <!-- cedula -->
             <VCol cols="12">
@@ -88,12 +82,6 @@ const isPasswordVisible = ref(false)
                 color="#2D882D"
               />
             </VCol>
-            <span
-              v-if="cedulaError"
-              style="color: red"
-            >
-              {{ cedulaError }}
-            </span>
 
             <!-- telefono -->
             <VCol cols="12">
@@ -104,12 +92,6 @@ const isPasswordVisible = ref(false)
                 color="#2D882D"
               />
             </VCol>
-            <span
-              v-if="telefonoError"
-              style="color: red"
-            >
-              {{ telefonoError }}
-            </span>
             <!-- programas -->
 
             <!-- password -->
@@ -142,7 +124,7 @@ const isPasswordVisible = ref(false)
                 block
                 @click="registrar"
                 type="submit"
-                color="#5cb85c"
+                color="#fc7323"
               >
                 Registrar
               </v-btn>
@@ -180,9 +162,6 @@ export default {
         password: '',
         role: null,
       },
-      emailError: null,
-      cedulaError: null,
-      telefonoError: null,
       id: null,
       dialog: false,
       rules: {
@@ -196,13 +175,10 @@ export default {
 
   methods: {
     async registrar() {
-      this.emailError = null
-      this.cedulaError = null
-      this.telefonoError = null
       try {
         this.dialog = true
 
-        const response = await axios.post(`${import.meta.env.VITE_API_BACKEND}/auth/register`, this.paquete, {
+        const response = await axios.post('http://localhost:3000/auth/register', this.paquete, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.getUser.access_token}`,
           },
@@ -212,27 +188,19 @@ export default {
         this.$emit('pguardar')
         this.dialog = false
       } catch (error) {
-        if (error.response.data.message === 'El usuario ya existe') {
-          this.emailError = 'El usuario ya existe'
-        }
-        if (error.response.data.message === 'La cedula ya existe') {
-          this.cedulaError = 'La cedula ya existe'
-        }
-        if (error.response.data.message === 'El telefono ya existe') {
-          this.telefonoError = 'El telefono ya existe'
-        }
+        console.error('Error al enviar datos:', error)
       }
     },
     async fetchRoles() {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_BACKEND}/roles`, {
+        const response = await axios.get('http://localhost:3000/roles', {
           headers: {
             Authorization: `Bearer ${this.$store.getters.getUser.access_token}`,
           },
         })
         this.roles = response.data
       } catch (error) {
-        //console.error('Error al obtener los roles:', error)
+        console.error('Error al obtener los roles:', error)
       }
     },
 

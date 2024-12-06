@@ -21,7 +21,7 @@
           <v-btn
             block
             @click="openWidget"
-            color="#5cb85c"
+            color="#fc7323"
             >Subir Archivo</v-btn
           >
 
@@ -43,7 +43,7 @@
             <v-col cols="6">
               <v-btn
                 block
-                color="#5cb85c"
+                color="#fc7323"
                 @click="guardar()"
                 >GUARDAR DATOS</v-btn
               >
@@ -111,15 +111,11 @@ export default {
         this.paquete.publicid != null
       ) {
         this.dialog = true
-        const response = await axios.post(
-          `${import.meta.env.VITE_API_BACKEND}/archivo/${this.resultado}`,
-          this.paquete,
-          {
-            headers: {
-              Authorization: `Bearer ${this.$store.getters.getUser.access_token}`,
-            },
+        const response = await axios.post(`http://localhost:3000/archivo/${this.resultado}`, this.paquete, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.getUser.access_token}`,
           },
-        )
+        })
         this.$notify({ text: 'Guia de aprendizaje cargada con éxito...', type: 'success' })
         this.dialog = false
         this.paquete.url = '' // URL de la imagen subida

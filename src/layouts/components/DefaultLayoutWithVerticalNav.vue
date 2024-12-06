@@ -35,11 +35,12 @@ import NavItemsInstructor from './NavItemsInstructor.vue'
 
           <span class="app-logo">
             <img
-              src="/suga-sena.png"
+              src="../../../public/logo-sena-azul.png"
               alt="Logo sena"
-              width="100"
+              width="50"
+              height="50"
             />
-            <span class="app-logo-title">Sistema único de guias de aprendizaje</span>
+            <span class="app-logo-title">SUGA | SENA</span>
           </span>
         </div>
 
@@ -57,10 +58,10 @@ import NavItemsInstructor from './NavItemsInstructor.vue'
         <!-- eslint-disable vue/no-v-html -->
         <div class="d-flex">
           <img
-            src="/logo.png"
+            src="../../../public/logo.png"
             alt="Logo"
             width="180"
-            height="130"
+            height="180"
           />
         </div>
         <!-- eslint-enable -->

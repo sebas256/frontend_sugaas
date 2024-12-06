@@ -51,7 +51,7 @@
               v-if="!id"
               class="mt-3"
               @click="guardar()"
-              color="#5cb85c"
+              color="#fc7323"
               >Guardar</v-btn
             >
             <v-btn
@@ -114,15 +114,11 @@ export default {
       if (this.$refs.form.validate()) {
         try {
           this.dialog = true
-          const response = await axios.patch(
-            `${import.meta.env.VITE_API_BACKEND}/resultados/${this.id}`,
-            this.paquete,
-            {
-              headers: {
-                Authorization: `Bearer ${this.$store.getters.getUser.access_token}`,
-              },
+          const response = await axios.patch(`http://localhost:3000/resultados/${this.id}`, this.paquete, {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.getUser.access_token}`,
             },
-          )
+          })
           this.$notify({ text: 'Resultado de aprendizaje editado con éxito...', type: 'success' })
           this.$refs.form.reset()
           this.estado = true
@@ -147,7 +143,7 @@ export default {
           this.dialog = true
           console.log(this.programa)
           const response = await axios.post(
-            `${import.meta.env.VITE_API_BACKEND}/resultados/${this.competencia}/${this.programa}`,
+            `http://localhost:3000/resultados/${this.competencia}/${this.programa}`,
             this.paquete,
             {
               headers: {
